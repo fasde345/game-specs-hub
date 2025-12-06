@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Требования к ПК/Мобильным играм | GameSpecs Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Общие стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка и Навигация */
+        header {
+            background: linear-gradient(90deg, #1f4068, #162447);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        #tabs {
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid #2c3e50;
+        }
+
+        .tab-button {
+            padding: 15px 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #90a4ae;
+            font-size: 1.1em;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .tab-button:hover {
+            color: #ffcc00;
+        }
+
+        .tab-button.active {
+            color: #ffcc00;
+            border-bottom: 3px solid #ffcc00;
+            background-color: #1a2a40;
+        }
+
+        /* Основные секции */
+        .content-section {
+            padding-top: 30px;
+        }
+
+        #game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Карточки игр (ПК и Мобильные) */
+        .game-card {
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .game-image-container {
+            height: 180px;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-card h2 {
+            background-color: #333;
+            color: #ffcc00;
+            margin: 0;
+            padding: 15px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .specs-section {
+            padding: 15px;
+        }
+
+        .specs-section h3 {
+            color: #5b9bd5;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .specs-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .specs-section li {
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+
+        .specs-section li strong {
+            color: #e0e0e0;
+        }
+        
+        /* Стили для мобильных игр */
+        .game-card.mobile h2 {
+            background-color: #383838; /* Другой цвет для отличия */
+            color: #00bcd4;
+        }
+
+        /* --- Стили для Настроек --- */
+        #settings-page {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-item label {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        /* Стили для ползунка (Toggle Switch) */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #ffcc00;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #ffcc00;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="tabs">
+                <button class="tab-button active" data-tab="catalog-page">
+                    <i class="fas fa-list"></i> Каталог Игр
+                </button>
+                <button class="tab-button" data-tab="settings-page">
+                    <i class="fas fa-cog"></i> Настройки
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="catalog-page" class="content-section">
+            <h1 style="text-align: center; color: #5b9bd5;">Каталог Игр</h1>
+            
+            <section id="filter-section">
+                <input type="text" id="search-input" placeholder="Введите название игры или жанр..." style="padding: 10px 15px; border: 1px solid #333; border-radius: 8px; background-color: #1e1e1e; color: #e0e0e0; font-size: 1em; width: 100%; margin-bottom: 20px;">
+                </section>
+
+            <section id="game-list">
+                <p id="loading-message">Загрузка каталога игр...</p>
+            </section>
+        </section>
+
+        <section id="settings-page" class="content-section" style="display: none;">
+            <h1 style="text-align: center; color: #ffcc00;">Настройки Отображения</h1>
+
+            <div class="setting-item">
+                <label for="toggle-mobile">Включить мобильные игры (Android/iOS)</label>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-mobile" data-key="mobile-enabled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <label for="toggle-pc">Включить ПК-игры (Steam/Epic)</label>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-pc" data-key="pc-enabled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        // --- 1. Структура данных ---
+
+        // 1.1. 100 ПК Игр (Оставлены как есть)
+        const pcGameData = [
+            // ... (100 ПК-игр из предыдущего ответа) ...
+            { name: "Cyberpunk 2077", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=Cyberpunk+2077", min: { cpu: "i5-3570K", gpu: "GTX 780", ram: "8 GB", storage: "70 GB SSD" }, rec: { cpu: "i7-4790", gpu: "GTX 1060 (6GB)", ram: "12 GB", storage: "70 GB SSD" } },
+            { name: "Baldur's Gate 3", genre: "RPG, Стратегия", image: "https://via.placeholder.com/600x300?text=Baldurs+Gate+3", min: { cpu: "i5-4690", gpu: "GTX 970", ram: "8 GB", storage: "150 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 2060 Super", ram: "16 GB", storage: "150 GB SSD" } },
+            { name: "Elden Ring", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Elden+Ring", min: { cpu: "i5-8400", gpu: "GTX 1060 (3GB)", ram: "12 GB", storage: "60 GB" }, rec: { cpu: "i7-8700K", gpu: "GTX 1070 (8GB)", ram: "16 GB", storage: "60 GB" } },
+            { name: "Hogwarts Legacy", genre: "RPG, Приключения", image: "https://via.placeholder.com/600x300?text=Hogwarts+Legacy", min: { cpu: "i5-6600", gpu: "GTX 960 (4GB)", ram: "16 GB", storage: "85 GB SSD" }, rec: { cpu: "i7-8700", gpu: "GTX 1080 Ti", ram: "16 GB", storage: "85 GB SSD" } },
+            { name: "Starfield", genre: "RPG, Приключения", image: "https://via.placeholder.com/600x300?text=Starfield", min: { cpu: "i7-6800K", gpu: "GTX 1070 Ti", ram: "16 GB", storage: "125 GB SSD" }, rec: { cpu: "i5-10600K", gpu: "RTX 2080", ram: "16 GB", storage: "125 GB SSD" } },
+            { name: "The Witcher 3: Wild Hunt", genre: "RPG, Приключения", image: "https://via.placeholder.com/600x300?text=The+Witcher+3", min: { cpu: "i5-2500K", gpu: "GTX 660", ram: "6 GB", storage: "50 GB" }, rec: { cpu: "i7-3770", gpu: "GTX 770", ram: "8 GB", storage: "50 GB SSD" } },
+            { name: "Red Dead Redemption 2", genre: "Приключения, Экшен", image: "https://via.placeholder.com/600x300?text=RDR2", min: { cpu: "i5-2500K", gpu: "GTX 770", ram: "8 GB", storage: "150 GB" }, rec: { cpu: "i7-4770K", gpu: "GTX 1060 (6GB)", ram: "12 GB", storage: "150 GB SSD" } },
+            { name: "Doom Eternal", genre: "Шутер, Экшен", image: "https://via.placeholder.com/600x300?text=Doom+Eternal", min: { cpu: "i5-12400F", gpu: "GTX 1060", ram: "8 GB", storage: "80 GB SSD" }, rec: { cpu: "i7-6700K", gpu: "RTX 2060", ram: "16 GB", storage: "80 GB SSD" } },
+            { name: "Resident Evil 4 (Remake)", genre: "Хоррор, Экшен", image: "https://via.placeholder.com/600x300?text=RE4+Remake", min: { cpu: "i5-7500", gpu: "GTX 1050 Ti", ram: "8 GB", storage: "60 GB SSD" }, rec: { cpu: "i7-8700", gpu: "RTX 2070", ram: "16 GB", storage: "60 GB SSD" } },
+            { name: "Grand Theft Auto V", genre: "Экшен, Приключения", image: "https://via.placeholder.com/600x300?text=GTA+V", min: { cpu: "i5-3470", gpu: "GTX 480", ram: "4 GB", storage: "72 GB" }, rec: { cpu: "i5-3470", gpu: "GTX 660", ram: "8 GB", storage: "72 GB" } },
+            { name: "Halo Infinite", genre: "Шутер, Экшен", image: "https://via.placeholder.com/600x300?text=Halo+Infinite", min: { cpu: "i5-4440", gpu: "GTX 1050 Ti", ram: "8 GB", storage: "50 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 2070", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "Forza Horizon 5", genre: "Гонки, Симулятор", image: "https://via.placeholder.com/600x300?text=Forza+Horizon+5", min: { cpu: "i5-4460", gpu: "GTX 970", ram: "8 GB", storage: "110 GB SSD" }, rec: { cpu: "i7-10700K", gpu: "RTX 3070", ram: "16 GB", storage: "110 GB SSD" } },
+            { name: "Monster Hunter World", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=MHW", min: { cpu: "i5-4460", gpu: "GTX 760", ram: "8 GB", storage: "48 GB" }, rec: { cpu: "i7-3770", gpu: "GTX 1060 (3GB)", ram: "8 GB", storage: "48 GB" } },
+            { name: "Diablo IV", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Diablo+IV", min: { cpu: "i5-2500K", gpu: "GTX 660", ram: "8 GB", storage: "90 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 2070", ram: "16 GB", storage: "90 GB SSD" } },
+            { name: "Counter-Strike 2", genre: "Шутер, Киберспорт", image: "https://via.placeholder.com/600x300?text=CS2", min: { cpu: "i5-7500", gpu: "GTX 660", ram: "8 GB", storage: "85 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 2060", ram: "16 GB", storage: "85 GB SSD" } },
+            { name: "Overwatch 2", genre: "Шутер, Киберспорт", image: "https://via.placeholder.com/600x300?text=Overwatch+2", min: { cpu: "i3", gpu: "GTX 600", ram: "6 GB", storage: "50 GB SSD" }, rec: { cpu: "i7", gpu: "GTX 1060", ram: "8 GB", storage: "50 GB SSD" } },
+            { name: "Apex Legends", genre: "Шутер, Battle Royale", image: "https://via.placeholder.com/600x300?text=Apex+Legends", min: { cpu: "i3-6300", gpu: "GT 640", ram: "6 GB", storage: "56 GB SSD" }, rec: { cpu: "i5-3570K", gpu: "GTX 970", ram: "8 GB", storage: "56 GB SSD" } },
+            { name: "Battlefield 2042", genre: "Шутер, Экшен", image: "https://via.placeholder.com/600x300?text=BF+2042", min: { cpu: "i5-6600K", gpu: "GTX 1050 Ti", ram: "8 GB", storage: "100 GB SSD" }, rec: { cpu: "i7-4790", gpu: "RTX 3060", ram: "16 GB", storage: "100 GB SSD" } },
+            { name: "PUBG: BATTLEGROUNDS", genre: "Battle Royale, Шутер", image: "https://via.placeholder.com/600x300?text=PUBG", min: { cpu: "i5-4430", gpu: "GTX 960", ram: "8 GB", storage: "40 GB SSD" }, rec: { cpu: "i5-6600K", gpu: "GTX 1060", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "Destiny 2", genre: "MMORPG, Шутер", image: "https://via.placeholder.com/600x300?text=Destiny+2", min: { cpu: "i3-3250", gpu: "GTX 660", ram: "6 GB", storage: "105 GB SSD" }, rec: { cpu: "i5-7400", gpu: "GTX 1060", ram: "8 GB", storage: "105 GB SSD" } },
+            { name: "The Elder Scrolls Online", genre: "MMORPG, RPG", image: "https://via.placeholder.com/600x300?text=ESO", min: { cpu: "i3-4160", gpu: "GTX 460", ram: "3 GB", storage: "120 GB SSD" }, rec: { cpu: "i5-2300", gpu: "GTX 750", ram: "8 GB", storage: "120 GB SSD" } },
+            { name: "Valheim", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=Valheim", min: { cpu: "i5 3.0 GHz", gpu: "GTX 950", ram: "8 GB", storage: "1 GB SSD" }, rec: { cpu: "i5 3.2 GHz", gpu: "GTX 1060", ram: "16 GB", storage: "1 GB SSD" } },
+            { name: "Rust", genre: "Survival, Экшен", image: "https://via.placeholder.com/600x300?text=Rust", min: { cpu: "i7-3770", gpu: "GTX 670", ram: "10 GB", storage: "25 GB SSD" }, rec: { cpu: "i7-4790K", gpu: "GTX 980 Ti", ram: "16 GB", storage: "25 GB SSD" } },
+            { name: "Subnautica", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=Subnautica", min: { cpu: "i3-2100", gpu: "GTX 550 Ti", ram: "8 GB", storage: "20 GB" }, rec: { cpu: "i5-4690", gpu: "GTX 1050 Ti", ram: "8 GB", storage: "20 GB SSD" } },
+            { name: "ARK: Survival Evolved", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=ARK+Survival", min: { cpu: "i5-2400", gpu: "GTX 670", ram: "8 GB", storage: "60 GB SSD" }, rec: { cpu: "i7-4770K", gpu: "GTX 1070", ram: "16 GB", storage: "60 GB SSD" } },
+            { name: "Death Stranding", genre: "Приключения, Экшен", image: "https://via.placeholder.com/600x300?text=Death+Stranding", min: { cpu: "i5-3470", gpu: "GTX 1050", ram: "8 GB", storage: "80 GB SSD" }, rec: { cpu: "i7-3770", gpu: "GTX 1060", ram: "16 GB", storage: "80 GB SSD" } },
+            { name: "Control", genre: "Экшен, Приключения", image: "https://via.placeholder.com/600x300?text=Control", min: { cpu: "i5-7500", gpu: "GTX 1060", ram: "8 GB", storage: "42 GB SSD" }, rec: { cpu: "i5-8600K", gpu: "RTX 2060", ram: "16 GB", storage: "42 GB SSD" } },
+            { name: "Sekiro: Shadows Die Twice", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Sekiro", min: { cpu: "i3-2100", gpu: "GTX 760", ram: "4 GB", storage: "25 GB" }, rec: { cpu: "i5-2500K", gpu: "GTX 970", ram: "8 GB", storage: "25 GB SSD" } },
+            { name: "Assassin's Creed Valhalla", genre: "RPG, Приключения", image: "https://via.placeholder.com/600x300?text=AC+Valhalla", min: { cpu: "i5-4460", gpu: "GTX 960", ram: "8 GB", storage: "130 GB SSD" }, rec: { cpu: "i7-4790", gpu: "GTX 1060", ram: "8 GB", storage: "130 GB SSD" } },
+            { name: "Hitman 3", genre: "Стелс, Экшен", image: "https://via.placeholder.com/600x300?text=Hitman+3", min: { cpu: "i5-2500K", gpu: "GTX 660", ram: "8 GB", storage: "80 GB SSD" }, rec: { cpu: "i7-4790", gpu: "GTX 1070", ram: "16 GB", storage: "80 GB SSD" } },
+            { name: "Horizon Zero Dawn", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Horizon+ZD", min: { cpu: "i5-2500K", gpu: "GTX 780", ram: "8 GB", storage: "100 GB SSD" }, rec: { cpu: "i7-4770K", gpu: "GTX 1060", ram: "16 GB", storage: "100 GB SSD" } },
+            { name: "The Forest", genre: "Survival, Хоррор", image: "https://via.placeholder.com/600x300?text=The+Forest", min: { cpu: "i3-2100", gpu: "GTX 560", ram: "4 GB", storage: "5 GB SSD" }, rec: { cpu: "i7-4770K", gpu: "GTX 980", ram: "8 GB", storage: "5 GB SSD" } },
+            { name: "Dead by Daylight", genre: "Хоррор, Экшен", image: "https://via.placeholder.com/600x300?text=Dead+by+Daylight", min: { cpu: "i3-4170", gpu: "GTX 460", ram: "8 GB", storage: "50 GB" }, rec: { cpu: "i3-4170", gpu: "GTX 1060", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "Phasmophobia", genre: "Хоррор, Инди", image: "https://via.placeholder.com/600x300?text=Phasmophobia", min: { cpu: "i5-4590", gpu: "GTX 970", ram: "8 GB", storage: "18 GB SSD" }, rec: { cpu: "i5-10600K", gpu: "RTX 3060", ram: "16 GB", storage: "18 GB SSD" } },
+            { name: "Cities: Skylines", genre: "Симулятор, Стратегия", image: "https://via.placeholder.com/600x300?text=Cities+Skylines", min: { cpu: "i3-530", gpu: "GTS 450", ram: "4 GB", storage: "4 GB" }, rec: { cpu: "i5-2500K", gpu: "GTX 660", ram: "6 GB", storage: "4 GB SSD" } },
+            { name: "Microsoft Flight Simulator", genre: "Симулятор", image: "https://via.placeholder.com/600x300?text=MS+Flight+Sim", min: { cpu: "i5-4460", gpu: "GTX 770", ram: "8 GB", storage: "150 GB SSD" }, rec: { cpu: "i5-8400", gpu: "GTX 970", ram: "16 GB", storage: "150 GB SSD" } },
+            { name: "Euro Truck Simulator 2", genre: "Симулятор", image: "https://via.placeholder.com/600x300?text=ETS+2", min: { cpu: "Dual Core 2.4 GHz", gpu: "GT 730", ram: "4 GB", storage: "8 GB" }, rec: { cpu: "Quad Core 3.0 GHz", gpu: "GTX 760", ram: "6 GB", storage: "8 GB SSD" } },
+            { name: "Factorio", genre: "Стратегия, Симулятор", image: "https://via.placeholder.com/600x300?text=Factorio", min: { cpu: "Dual core 3 Ghz", gpu: "GT 730", ram: "4 GB", storage: "10 GB" }, rec: { cpu: "Quad core 3.2 Ghz", gpu: "GTX 970", ram: "8 GB", storage: "10 GB SSD" } },
+            { name: "XCOM 2", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=XCOM+2", min: { cpu: "i5-4430", gpu: "GTX 460", ram: "4 GB", storage: "45 GB" }, rec: { cpu: "i5-4690", gpu: "GTX 970", ram: "8 GB", storage: "45 GB SSD" } },
+            { name: "Civilization VI", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=Civilization+VI", min: { cpu: "i3-2100", gpu: "HD 5570", ram: "4 GB", storage: "12 GB" }, rec: { cpu: "i5-4460", gpu: "R9 290", ram: "8 GB", storage: "12 GB SSD" } },
+            { name: "God of War", genre: "Экшен, Приключения", image: "https://via.placeholder.com/600x300?text=God+of+War", min: { cpu: "i5-2500K", gpu: "GTX 960 (4GB)", ram: "8 GB", storage: "70 GB SSD" }, rec: { cpu: "i7-7400", gpu: "GTX 1060 (6GB)", ram: "16 GB", storage: "70 GB SSD" } },
+            { name: "Marvel's Spider-Man Remastered", genre: "Экшен, Приключения", image: "https://via.placeholder.com/600x300?text=Spider-Man+Remastered", min: { cpu: "i3-4160", gpu: "GTX 950", ram: "8 GB", storage: "75 GB SSD" }, rec: { cpu: "i5-4670", gpu: "GTX 1060 (6GB)", ram: "16 GB", storage: "75 GB SSD" } },
+            { name: "The Last of Us Part I", genre: "Приключения, Экшен", image: "https://via.placeholder.com/600x300?text=TLOU+Part+I", min: { cpu: "i7-4770K", gpu: "GTX 1070", ram: "16 GB", storage: "100 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 2070", ram: "32 GB", storage: "100 GB SSD" } },
+            { name: "Cyberpunk 2077: Phantom Liberty", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=Phantom+Liberty", min: { cpu: "i7-6700", gpu: "GTX 1060 (6GB)", ram: "12 GB", storage: "70 GB SSD" }, rec: { cpu: "i7-12700", gpu: "RTX 4070 Ti", ram: "16 GB", storage: "70 GB SSD" } },
+            { name: "Horizon Forbidden West", genre: "RPG, Приключения", image: "https://via.placeholder.com/600x300?text=Horizon+FW", min: { cpu: "i5-8400", gpu: "RTX 3060", ram: "16 GB", storage: "150 GB SSD" }, rec: { cpu: "i7-10700K", gpu: "RTX 4080", ram: "32 GB", storage: "150 GB SSD" } },
+            { name: "Star Wars Jedi: Survivor", genre: "Экшен, Приключения", image: "https://via.placeholder.com/600x300?text=Jedi+Survivor", min: { cpu: "i7-7700", gpu: "GTX 1070", ram: "8 GB", storage: "155 GB SSD" }, rec: { cpu: "i5-11600K", gpu: "RTX 2070", ram: "16 GB", storage: "155 GB SSD" } },
+            { name: "Sea of Thieves", genre: "Приключения, Экшен", image: "https://via.placeholder.com/600x300?text=Sea+of+Thieves", min: { cpu: "i3-2100", gpu: "GTX 650", ram: "8 GB", storage: "50 GB SSD" }, rec: { cpu: "i5-4690", gpu: "GTX 1060", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "Garry's Mod", genre: "Песочница", image: "https://via.placeholder.com/600x300?text=Garry's+Mod", min: { cpu: "2.5 GHz Processor", gpu: "DirectX 9 compatible", ram: "8 GB", storage: "20 GB" }, rec: { cpu: "Quad core", gpu: "GTX 970", ram: "16 GB", storage: "20 GB SSD" } },
+            { name: "Terraria", genre: "Инди, Приключения", image: "https://via.placeholder.com/600x300?text=Terraria", min: { cpu: "2.0 GHz", gpu: "128mb Video Memory", ram: "2.5 GB", storage: "200 MB" }, rec: { cpu: "Quad Core", gpu: "DirectX 11", ram: "8 GB", storage: "200 MB SSD" } },
+            { name: "Stardew Valley", genre: "Инди, RPG", image: "https://via.placeholder.com/600x300?text=Stardew+Valley", min: { cpu: "2 GHz", gpu: "256 MB VRAM", ram: "2 GB", storage: "500 MB" }, rec: { cpu: "3 GHz", gpu: "512 MB VRAM", ram: "4 GB", storage: "500 MB SSD" } },
+            { name: "Minecraft Dungeons", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Minecraft+Dungeons", min: { cpu: "i5-7400", gpu: "GTX 660", ram: "8 GB", storage: "9 GB SSD" }, rec: { cpu: "i7-8700", gpu: "GTX 1060", ram: "16 GB", storage: "9 GB SSD" } },
+            { name: "No Man's Sky", genre: "Приключения, Survival", image: "https://via.placeholder.com/600x300?text=No+Man's+Sky", min: { cpu: "i3-4170", gpu: "GTX 480", ram: "8 GB", storage: "15 GB SSD" }, rec: { cpu: "i7-4790", gpu: "GTX 1060", ram: "16 GB", storage: "15 GB SSD" } },
+            { name: "Deep Rock Galactic", genre: "Шутер, Кооператив", image: "https://via.placeholder.com/600x300?text=Deep+Rock+Galactic", min: { cpu: "i5-2500K", gpu: "GTX 760", ram: "8 GB", storage: "3 GB SSD" }, rec: { cpu: "i5-7600K", gpu: "GTX 1060", ram: "16 GB", storage: "3 GB SSD" } },
+            { name: "Left 4 Dead 2", genre: "Шутер, Хоррор", image: "https://via.placeholder.com/600x300?text=L4D2", min: { cpu: "Pentium 4 3.0 GHz", gpu: "Radeon 9600", ram: "2 GB", storage: "13 GB" }, rec: { cpu: "Core 2 Duo 2.4 GHz", gpu: "Radeon X1600", ram: "4 GB", storage: "13 GB" } },
+            { name: "Rocket League", genre: "Спорт, Гонки", image: "https://via.placeholder.com/600x300?text=Rocket+League", min: { cpu: "Dual Core 2.4 GHz", gpu: "GTX 260", ram: "4 GB", storage: "20 GB SSD" }, rec: { cpu: "Quad Core 2.5 GHz", gpu: "GTX 660", ram: "8 GB", storage: "20 GB SSD" } },
+            { name: "F1 23", genre: "Гонки, Симулятор", image: "https://via.placeholder.com/600x300?text=F1+23", min: { cpu: "i3-2130", gpu: "GTX 960", ram: "8 GB", storage: "80 GB SSD" }, rec: { cpu: "i5-9600K", gpu: "RTX 2070", ram: "16 GB", storage: "80 GB SSD" } },
+            { name: "NBA 2K24", genre: "Спорт", image: "https://via.placeholder.com/600x300?text=NBA+2K24", min: { cpu: "i3-2100", gpu: "GTX 480", ram: "8 GB", storage: "110 GB SSD" }, rec: { cpu: "i5-4430", gpu: "GTX 770", ram: "16 GB", storage: "110 GB SSD" } },
+            { name: "FIFA 23", genre: "Спорт", image: "https://via.placeholder.com/600x300?text=FIFA+23", min: { cpu: "i5-6600K", gpu: "GTX 1050 Ti", ram: "8 GB", storage: "100 GB SSD" }, rec: { cpu: "i7-6700", gpu: "GTX 1660", ram: "12 GB", storage: "100 GB SSD" } },
+            { name: "Crusader Kings III", genre: "Стратегия, RPG", image: "https://via.placeholder.com/600x300?text=CK3", min: { cpu: "i3-2120", gpu: "GTX 460", ram: "6 GB", storage: "8 GB SSD" }, rec: { cpu: "i5-4670K", gpu: "GTX 1660 Ti", ram: "8 GB", storage: "8 GB SSD" } },
+            { name: "Hearts of Iron IV", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=HOI4", min: { cpu: "i3-2100", gpu: "HD 7750", ram: "4 GB", storage: "2 GB SSD" }, rec: { cpu: "i5-7500", gpu: "GTX 970", ram: "8 GB", storage: "2 GB SSD" } },
+            { name: "Stellaris", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=Stellaris", min: { cpu: "i3-2100", gpu: "HD 5770", ram: "4 GB", storage: "10 GB SSD" }, rec: { cpu: "i5-3570K", gpu: "GTX 970", ram: "8 GB", storage: "10 GB SSD" } },
+            { name: "RimWorld", genre: "Стратегия, Симулятор", image: "https://via.placeholder.com/600x300?text=RimWorld", min: { cpu: "Core i5", gpu: "GeForce 8800 GT", ram: "4 GB", storage: "500 MB" }, rec: { cpu: "Core i7", gpu: "GTX 1050", ram: "8 GB", storage: "500 MB SSD" } },
+            { name: "Age of Empires IV", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=AoE+IV", min: { cpu: "i5-6300U", gpu: "GTX 650", ram: "8 GB", storage: "50 GB SSD" }, rec: { cpu: "i5-9600K", gpu: "RTX 2060", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "StarCraft II", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=StarCraft+II", min: { cpu: "Core 2 Duo", gpu: "GeForce 7600 GT", ram: "2 GB", storage: "30 GB" }, rec: { cpu: "i5-6500", gpu: "GTX 970", ram: "8 GB", storage: "30 GB SSD" } },
+            { name: "Frostpunk", genre: "Стратегия, Симулятор", image: "https://via.placeholder.com/600x300?text=Frostpunk", min: { cpu: "i4-2500K", gpu: "GTX 660", ram: "8 GB", storage: "8 GB SSD" }, rec: { cpu: "i7-4770K", gpu: "GTX 970", ram: "16 GB", storage: "8 GB SSD" } },
+            { name: "The Sims 4", genre: "Симулятор", image: "https://via.placeholder.com/600x300?text=The+Sims+4", min: { cpu: "Core 2 Duo E4300", gpu: "Geforce 6600", ram: "4 GB", storage: "26 GB" }, rec: { cpu: "i5-4430", gpu: "GTX 970", ram: "8 GB", storage: "26 GB SSD" } },
+            { name: "Planet Coaster", genre: "Симулятор", image: "https://via.placeholder.com/600x300?text=Planet+Coaster", min: { cpu: "i5-2300", gpu: "GTX 560", ram: "8 GB", storage: "8 GB SSD" }, rec: { cpu: "i7-4770", gpu: "GTX 980", ram: "12 GB", storage: "8 GB SSD" } },
+            { name: "Kerbal Space Program 2", genre: "Симулятор", image: "https://via.placeholder.com/600x300?text=KSP+2", min: { cpu: "i5-6400", gpu: "GTX 1070", ram: "12 GB", storage: "45 GB SSD" }, rec: { cpu: "i5-11600K", gpu: "RTX 3070", ram: "16 GB", storage: "45 GB SSD" } },
+            { name: "Grounded", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=Grounded", min: { cpu: "i3-3225", gpu: "GTX 650 Ti", ram: "4 GB", storage: "8 GB SSD" }, rec: { cpu: "i7-4770K", gpu: "GTX 980", ram: "8 GB", storage: "8 GB SSD" } },
+            { name: "DayZ", genre: "Survival, Экшен", image: "https://via.placeholder.com/600x300?text=DayZ", min: { cpu: "i5-4430", gpu: "GTX 760", ram: "8 GB", storage: "25 GB SSD" }, rec: { cpu: "i7-6700K", gpu: "GTX 1070", ram: "16 GB", storage: "25 GB SSD" } },
+            { name: "7 Days to Die", genre: "Survival, Хоррор", image: "https://via.placeholder.com/600x300?text=7+Days+to+Die", min: { cpu: "i5-4430", gpu: "GTX 460", ram: "8 GB", storage: "12 GB SSD" }, rec: { cpu: "i7-4790K", gpu: "GTX 1060", ram: "16 GB", storage: "12 GB SSD" } },
+            { name: "Sons Of The Forest", genre: "Survival, Хоррор", image: "https://via.placeholder.com/600x300?text=Sons+Of+The+Forest", min: { cpu: "i5-8400", gpu: "GTX 1060 (6GB)", ram: "12 GB", storage: "40 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 2080", ram: "16 GB", storage: "40 GB SSD" } },
+            { name: "Amnesia: The Bunker", genre: "Хоррор, Приключения", image: "https://via.placeholder.com/600x300?text=Amnesia+The+Bunker", min: { cpu: "i3-4170", gpu: "GTX 660", ram: "8 GB", storage: "35 GB SSD" }, rec: { cpu: "i5-8600K", gpu: "GTX 1070", ram: "16 GB", storage: "35 GB SSD" } },
+            { name: "Outlast Trials", genre: "Хоррор, Кооператив", image: "https://via.placeholder.com/600x300?text=Outlast+Trials", min: { cpu: "i5-6600", gpu: "GTX 1070", ram: "16 GB", storage: "40 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 2070", ram: "32 GB", storage: "40 GB SSD" } },
+            { name: "Dead Space (Remake)", genre: "Хоррор, Экшен", image: "https://via.placeholder.com/600x300?text=Dead+Space+Remake", min: { cpu: "i5-8600", gpu: "RTX 2070", ram: "16 GB", storage: "50 GB SSD" }, rec: { cpu: "i7-11700K", gpu: "RTX 3070", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "EVE Online", genre: "MMORPG, Симулятор", image: "https://via.placeholder.com/600x300?text=EVE+Online", min: { cpu: "i5-2300", gpu: "GTX 560", ram: "4 GB", storage: "30 GB SSD" }, rec: { cpu: "i7-4790", gpu: "GTX 970", ram: "8 GB", storage: "30 GB SSD" } },
+            { name: "Final Fantasy XIV Online", genre: "MMORPG, RPG", image: "https://via.placeholder.com/600x300?text=FF+XIV", min: { cpu: "i5-2500", gpu: "GTX 750", ram: "4 GB", storage: "80 GB SSD" }, rec: { cpu: "i7-6700K", gpu: "GTX 1080", ram: "16 GB", storage: "80 GB SSD" } },
+            { name: "Lost Ark", genre: "MMORPG, Экшен", image: "https://via.placeholder.com/600x300?text=Lost+Ark", min: { cpu: "i3-4150", gpu: "GTX 660", ram: "8 GB", storage: "70 GB SSD" }, rec: { cpu: "i5-8400", gpu: "RTX 2060", ram: "16 GB", storage: "70 GB SSD" } },
+            { name: "New World", genre: "MMORPG, RPG", image: "https://via.placeholder.com/600x300?text=New+World", min: { cpu: "i5-2400", gpu: "GTX 970", ram: "8 GB", storage: "50 GB SSD" }, rec: { cpu: "i7-2600K", gpu: "RTX 2060", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "World of Warcraft", genre: "MMORPG", image: "https://via.placeholder.com/600x300?text=WoW", min: { cpu: "i5-3450", gpu: "GTX 760", ram: "8 GB", storage: "100 GB SSD" }, rec: { cpu: "i7-4770", gpu: "RTX 2060", ram: "16 GB", storage: "100 GB SSD" } },
+            { name: "Warframe", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Warframe", min: { cpu: "Dual Core 2.0 GHz", gpu: "GTX 570", ram: "4 GB", storage: "50 GB SSD" }, rec: { cpu: "Quad Core 3.0 GHz", gpu: "GTX 1060", ram: "8 GB", storage: "50 GB SSD" } },
+            { name: "Path of Exile", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Path+of+Exile", min: { cpu: "i5-6400", gpu: "GTX 680", ram: "8 GB", storage: "50 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 2070", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "Hades", genre: "Инди, Экшен", image: "https://via.placeholder.com/600x300?text=Hades", min: { cpu: "Dual Core 3.0 GHz", gpu: "GTX 760", ram: "4 GB", storage: "15 GB SSD" }, rec: { cpu: "Quad Core 3.5 GHz", gpu: "GTX 1060", ram: "8 GB", storage: "15 GB SSD" } },
+            { name: "Hollow Knight", genre: "Инди, Приключения", image: "https://via.placeholder.com/600x300?text=Hollow+Knight", min: { cpu: "Core 2 Duo E7500", gpu: "GeForce 9800 GT", ram: "4 GB", storage: "9 GB" }, rec: { cpu: "Core 2 Quad Q6600", gpu: "GTX 760", ram: "8 GB", storage: "9 GB SSD" } },
+            { name: "Celeste", genre: "Инди, Платформер", image: "https://via.placeholder.com/600x300?text=Celeste", min: { cpu: "2.0 GHz", gpu: "GeForce 7 Series", ram: "2 GB", storage: "1.2 GB" }, rec: { cpu: "Quad Core", gpu: "GeForce 9600 GT", ram: "4 GB", storage: "1.2 GB SSD" } },
+            { name: "Disco Elysium", genre: "RPG, Инди", image: "https://via.placeholder.com/600x300?text=Disco+Elysium", min: { cpu: "i5-7400", gpu: "GTX 760", ram: "8 GB", storage: "20 GB SSD" }, rec: { cpu: "i7-8700", gpu: "GTX 1060", ram: "16 GB", storage: "20 GB SSD" } },
+            { name: "It Takes Two", genre: "Приключения, Кооператив", image: "https://via.placeholder.com/600x300?text=It+Takes+Two", min: { cpu: "i3-2100T", gpu: "GTX 660", ram: "8 GB", storage: "50 GB SSD" }, rec: { cpu: "i5-3570K", gpu: "GTX 980", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "Portal 2", genre: "Головоломка, Экшен", image: "https://via.placeholder.com/600x300?text=Portal+2", min: { cpu: "Pentium 4 3.0 GHz", gpu: "GeForce 7600", ram: "2 GB", storage: "8 GB" }, rec: { cpu: "Core 2 Duo 2.4 GHz", gpu: "GTX 760", ram: "4 GB", storage: "8 GB SSD" } },
+            { name: "Half-Life 2", genre: "Шутер, Приключения", image: "https://via.placeholder.com/600x300?text=Half-Life+2", min: { cpu: "1.7 GHz Processor", gpu: "DirectX 8.1 compatible", ram: "512 MB", storage: "7 GB" }, rec: { cpu: "3.0 GHz Processor", gpu: "DirectX 9.0c compatible", ram: "2 GB", storage: "7 GB SSD" } },
+            { name: "DOOM (2016)", genre: "Шутер, Экшен", image: "https://via.placeholder.com/600x300?text=DOOM+2016", min: { cpu: "i5-2400", gpu: "GTX 670", ram: "8 GB", storage: "55 GB SSD" }, rec: { cpu: "i7-3770", gpu: "GTX 970", ram: "16 GB", storage: "55 GB SSD" } },
+            { name: "Prey", genre: "Шутер, RPG", image: "https://via.placeholder.com/600x300?text=Prey", min: { cpu: "i5-2400", gpu: "GTX 660", ram: "8 GB", storage: "20 GB SSD" }, rec: { cpu: "i7-2600K", gpu: "GTX 970", ram: "16 GB", storage: "20 GB SSD" } },
+            { name: "BioShock Infinite", genre: "Шутер, Приключения", image: "https://via.placeholder.com/600x300?text=BioShock+Infinite", min: { cpu: "Core 2 DUO 2.4 GHz", gpu: "GT 430", ram: "4 GB", storage: "30 GB" }, rec: { cpu: "Quad Core 3.0 GHz", gpu: "GTX 560", ram: "8 GB", storage: "30 GB SSD" } },
+            { name: "Borderlands 3", genre: "Шутер, RPG", image: "https://via.placeholder.com/600x300?text=Borderlands+3", min: { cpu: "i5-3570", gpu: "GTX 680", ram: "6 GB", storage: "75 GB SSD" }, rec: { cpu: "i7-4770", gpu: "GTX 1060", ram: "16 GB", storage: "75 GB SSD" } },
+            { name: "War Thunder", genre: "Симулятор, Экшен", image: "https://via.placeholder.com/600x300?text=War+Thunder", min: { cpu: "Dual Core 2.2 GHz", gpu: "GTX 560", ram: "4 GB", storage: "17 GB SSD" }, rec: { cpu: "Quad Core 3.0 GHz", gpu: "GTX 970", ram: "8 GB", storage: "17 GB SSD" } },
+            { name: "DCS World Steam Edition", genre: "Симулятор", image: "https://via.placeholder.com/600x300?text=DCS+World", min: { cpu: "i3-8300", gpu: "GTX 1070", ram: "16 GB", storage: "120 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 3070", ram: "32 GB", storage: "120 GB SSD" } },
+            { name: "Elite Dangerous", genre: "Симулятор, Приключения", image: "https://via.placeholder.com/600x300?text=Elite+Dangerous", min: { cpu: "Quad Core 2.0 GHz", gpu: "GTX 470", ram: "8 GB", storage: "60 GB SSD" }, rec: { cpu: "Quad Core 3.5 GHz", gpu: "GTX 980", ram: "16 GB", storage: "60 GB SSD" } },
+            { name: "Farming Simulator 22", genre: "Симулятор", image: "https://via.placeholder.com/600x300?text=Farming+Sim+22", min: { cpu: "i5-3330", gpu: "GTX 660", ram: "8 GB", storage: "35 GB SSD" }, rec: { cpu: "i5-5675C", gpu: "GTX 1060", ram: "12 GB", storage: "35 GB SSD" } },
+            { name: "Project Zomboid", genre: "Survival, RPG", image: "https://via.placeholder.com/600x300?text=Project+Zomboid", min: { cpu: "i3 2.5 GHz", gpu: "HD 4400", ram: "4 GB", storage: "5 GB SSD" }, rec: { cpu: "i5 3.5 GHz", gpu: "GTX 960", ram: "8 GB", storage: "5 GB SSD" } },
+            { name: "Dead Island 2", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Dead+Island+2", min: { cpu: "i7-7700K", gpu: "GTX 1060 (6GB)", ram: "10 GB", storage: "70 GB SSD" }, rec: { cpu: "i5-12600K", gpu: "RTX 3060", ram: "16 GB", storage: "70 GB SSD" } },
+            { name: "Ghostwire: Tokyo", genre: "Экшен, Приключения", image: "https://via.placeholder.com/600x300?text=Ghostwire+Tokyo", min: { cpu: "i7-4770K", gpu: "GTX 1060 (6GB)", ram: "12 GB", storage: "20 GB SSD" }, rec: { cpu: "i7-6700K", gpu: "RTX 2060", ram: "16 GB", storage: "20 GB SSD" } },
+            { name: "Dying Light 2 Stay Human", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Dying+Light+2", min: { cpu: "i3-9100", gpu: "GTX 1050 Ti", ram: "8 GB", storage: "60 GB SSD" }, rec: { cpu: "i5-8600K", gpu: "RTX 2060", ram: "16 GB", storage: "60 GB SSD" } },
+            { name: "The Callisto Protocol", genre: "Хоррор, Экшен", image: "https://via.placeholder.com/600x300?text=The+Callisto+Protocol", min: { cpu: "i5-8400", gpu: "GTX 1060 (6GB)", ram: "12 GB", storage: "75 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 2070", ram: "16 GB", storage: "75 GB SSD" } },
+            { name: "S.T.A.L.K.E.R. 2: Heart of Chornobyl", genre: "Шутер, Survival", image: "https://via.placeholder.com/600x300?text=STALKER+2", min: { cpu: "i5-7600K", gpu: "GTX 1060 (6GB)", ram: "16 GB", storage: "150 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 2070 Super", ram: "32 GB", storage: "150 GB SSD" } },
+            { name: "Metro Exodus", genre: "Шутер, Приключения", image: "https://via.placeholder.com/600x300?text=Metro+Exodus", min: { cpu: "i5-4440", gpu: "GTX 670", ram: "8 GB", storage: "59 GB SSD" }, rec: { cpu: "i7-4770K", gpu: "GTX 1070 Ti", ram: "16 GB", storage: "59 GB SSD" } },
+            { name: "A Plague Tale: Requiem", genre: "Приключения, Экшен", image: "https://via.placeholder.com/600x300?text=A+Plague+Tale+Requiem", min: { cpu: "i5-4690K", gpu: "GTX 970", ram: "16 GB", storage: "55 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 3070", ram: "16 GB", storage: "55 GB SSD" } },
+            { name: "Elden Ring: Shadow of the Erdtree", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Shadow+of+the+Erdtree", min: { cpu: "i5-8400", gpu: "GTX 1070", ram: "16 GB", storage: "80 GB SSD" }, rec: { cpu: "i7-10700K", gpu: "RTX 3070", ram: "32 GB", storage: "80 GB SSD" } },
+            { name: "Final Fantasy VII Remake Intergrade", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=FFVII+Remake", min: { cpu: "i5-3330", gpu: "GTX 780", ram: "8 GB", storage: "100 GB SSD" }, rec: { cpu: "i7-3770", gpu: "RTX 2070", ram: "12 GB", storage: "100 GB SSD" } },
+            { name: "Dragon's Dogma 2", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=Dragons+Dogma+2", min: { cpu: "i5-10600", gpu: "RTX 2080", ram: "16 GB", storage: "70 GB SSD" }, rec: { cpu: "i7-12700K", gpu: "RTX 4070", ram: "32 GB", storage: "70 GB SSD" } },
+            { name: "Helldivers 2", genre: "Шутер, Кооператив", image: "https://via.placeholder.com/600x300?text=Helldivers+2", min: { cpu: "i7-4790K", gpu: "GTX 960", ram: "8 GB", storage: "100 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 2060", ram: "16 GB", storage: "100 GB SSD" } },
+            { name: "Palworld", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=Palworld", min: { cpu: "i5-3570K", gpu: "GTX 1050", ram: "16 GB", storage: "40 GB SSD" }, rec: { cpu: "i9-10900K", gpu: "RTX 3070", ram: "32 GB", storage: "40 GB SSD" } },
+            { name: "Lethal Company", genre: "Хоррор, Кооператив", image: "https://via.placeholder.com/600x300?text=Lethal+Company", min: { cpu: "i5-7400", gpu: "GTX 1050", ram: "8 GB", storage: "1 GB SSD" }, rec: { cpu: "i7-8700", gpu: "GTX 1660", ram: "16 GB", storage: "1 GB SSD" } },
+            { name: "The Long Dark", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=The+Long+Dark", min: { cpu: "i5-4570", gpu: "GTX 555", ram: "8 GB", storage: "7 GB SSD" }, rec: { cpu: "i7-5820K", gpu: "GTX 960", ram: "16 GB", storage: "7 GB SSD" } },
+            { name: "Arma 3", genre: "Симулятор, Экшен", image: "https://via.placeholder.com/600x300?text=Arma+3", min: { cpu: "i5-2300", gpu: "GTX 560", ram: "6 GB", storage: "45 GB SSD" }, rec: { cpu: "i5-4460", gpu: "GTX 970", ram: "16 GB", storage: "45 GB SSD" } },
+            { name: "Squad", genre: "Шутер, Кооператив", image: "https://via.placeholder.com/600x300?text=Squad", min: { cpu: "i7-4790K", gpu: "GTX 970", ram: "16 GB", storage: "55 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "RTX 2070", ram: "32 GB", storage: "55 GB SSD" } },
+            { name: "Insurgency: Sandstorm", genre: "Шутер", image: "https://via.placeholder.com/600x300?text=Insurgency+Sandstorm", min: { cpu: "i5-4440", gpu: "GTX 760", ram: "8 GB", storage: "40 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "GTX 980", ram: "16 GB", storage: "40 GB SSD" } },
+            { name: "Ready or Not", genre: "Шутер, Тактика", image: "https://via.placeholder.com/600x300?text=Ready+or+Not", min: { cpu: "i5-7600K", gpu: "GTX 1060 (6GB)", ram: "8 GB", storage: "90 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 2060", ram: "16 GB", storage: "90 GB SSD" } },
+            { name: "Rainbow Six Siege", genre: "Шутер, Киберспорт", image: "https://via.placeholder.com/600x300?text=R6+Siege", min: { cpu: "i3-560", gpu: "GTX 460", ram: "6 GB", storage: "85 GB SSD" }, rec: { cpu: "i5-2500K", gpu: "GTX 760", ram: "8 GB", storage: "85 GB SSD" } },
+            { name: "Deep Rock Galactic: Survivor", genre: "Инди, Экшен", image: "https://via.placeholder.com/600x300?text=DRG+Survivor", min: { cpu: "i5-7500", gpu: "GTX 1050", ram: "8 GB", storage: "2 GB SSD" }, rec: { cpu: "i7-8700K", gpu: "GTX 1660", ram: "16 GB", storage: "2 GB SSD" } },
+            { name: "Dead Cells", genre: "Инди, Экшен", image: "https://via.placeholder.com/600x300?text=Dead+Cells", min: { cpu: "Dual Core 2.4 GHz", gpu: "GTX 450", ram: "4 GB", storage: "500 MB" }, rec: { cpu: "Quad Core 2.8 GHz", gpu: "GTX 660", ram: "8 GB", storage: "500 MB SSD" } },
+            { name: "Subnautica: Below Zero", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=Subnautica+BZ", min: { cpu: "i3-4170", gpu: "GTX 770", ram: "8 GB", storage: "15 GB SSD" }, rec: { cpu: "i5-8400", gpu: "GTX 1060", ram: "16 GB", storage: "15 GB SSD" } },
+            { name: "Fallout 4", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=Fallout+4", min: { cpu: "i5-2300", gpu: "GTX 550 Ti", ram: "8 GB", storage: "30 GB SSD" }, rec: { cpu: "i7-4790", gpu: "GTX 780", ram: "16 GB", storage: "30 GB SSD" } },
+            { name: "The Elder Scrolls V: Skyrim", genre: "RPG, Приключения", image: "https://via.placeholder.com/600x300?text=Skyrim", min: { cpu: "Dual Core 2.0 GHz", gpu: "DirectX 9 compatible", ram: "2 GB", storage: "12 GB" }, rec: { cpu: "Quad Core 3.0 GHz", gpu: "GTX 560 Ti", ram: "8 GB", storage: "12 GB SSD" } },
+            { name: "Divinity: Original Sin 2", genre: "RPG, Стратегия", image: "https://via.placeholder.com/600x300?text=DOS2", min: { cpu: "i5-2400", gpu: "GTX 550 Ti", ram: "4 GB", storage: "60 GB SSD" }, rec: { cpu: "i7-2600K", gpu: "GTX 770", ram: "8 GB", storage: "60 GB SSD" } },
+            { name: "Pillars of Eternity II: Deadfire", genre: "RPG, Стратегия", image: "https://via.placeholder.com/600x300?text=Pillars+of+Eternity+2", min: { cpu: "i3-2100T", gpu: "GTX 750 Ti", ram: "8 GB", storage: "45 GB SSD" }, rec: { cpu: "i5-4690K", gpu: "GTX 1060", ram: "16 GB", storage: "45 GB SSD" } },
+            { name: "Grim Dawn", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Grim+Dawn", min: { cpu: "i3-2100", gpu: "GTX 560 Ti", ram: "4 GB", storage: "15 GB SSD" }, rec: { cpu: "i5-4690", gpu: "GTX 970", ram: "8 GB", storage: "15 GB SSD" } },
+            { name: "Warhammer 40,000: Darktide", genre: "Экшен, Кооператив", image: "https://via.placeholder.com/600x300?text=Darktide", min: { cpu: "i5-6600K", gpu: "GTX 970", ram: "8 GB", storage: "50 GB SSD" }, rec: { cpu: "i7-9700K", gpu: "RTX 2060", ram: "16 GB", storage: "50 GB SSD" } },
+            { name: "Total War: WARHAMMER III", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=Total+War+WH+III", min: { cpu: "i3-2100", gpu: "GTX 780", ram: "6 GB", storage: "120 GB SSD" }, rec: { cpu: "i5-6600K", gpu: "RTX 2070", ram: "8 GB", storage: "120 GB SSD" } },
+            { name: "Company of Heroes 3", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=CoH+3", min: { cpu: "i3-4130", gpu: "GTX 950", ram: "8 GB", storage: "40 GB SSD" }, rec: { cpu: "i5-11600K", gpu: "RTX 3070", ram: "16 GB", storage: "40 GB SSD" } },
+            { name: "Sid Meier's Civilization V", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=Civilization+V", min: { cpu: "Core 2 Duo 1.8 GHz", gpu: "HD 2600 XT", ram: "2 GB", storage: "8 GB" }, rec: { cpu: "Quad Core 1.8 GHz", gpu: "GTX 470", ram: "4 GB", storage: "8 GB SSD" } },
+            { name: "Command & Conquer Remastered Collection", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=C%26C+Remastered", min: { cpu: "i5-4690", gpu: "GTX 660", ram: "4 GB", storage: "32 GB SSD" }, rec: { cpu: "i5-4690", gpu: "GTX 1660", ram: "16 GB", storage: "32 GB SSD" } }
+        ];
+
+        // 1.2. 50 Мобильных Игр (Новый массив)
+        const mobileGameData = [
+            // Внимание: Здесь используются упрощенные мобильные требования (ОС, ОЗУ, Место)
+            { name: "Genshin Impact", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=Genshin+Impact", type: "mobile", min: { os: "Android 8.1", ram: "4 GB", storage: "8 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "15 GB+" } },
+            { name: "Call of Duty Mobile", genre: "Шутер, Экшен", image: "https://via.placeholder.com/600x300?text=CoD+Mobile", type: "mobile", min: { os: "Android 5.1", ram: "2 GB", storage: "4 GB" }, rec: { os: "Android 9.0+", ram: "4 GB+", storage: "8 GB+" } },
+            { name: "PUBG Mobile", genre: "Battle Royale, Шутер", image: "https://via.placeholder.com/600x300?text=PUBG+Mobile", type: "mobile", min: { os: "Android 5.1.1", ram: "2 GB", storage: "3 GB" }, rec: { os: "Android 9.0+", ram: "4 GB+", storage: "6 GB+" } },
+            { name: "Free Fire", genre: "Battle Royale, Экшен", image: "https://via.placeholder.com/600x300?text=Free+Fire", type: "mobile", min: { os: "Android 4.1", ram: "1 GB", storage: "1.5 GB" }, rec: { os: "Android 8.0+", ram: "3 GB+", storage: "3 GB+" } },
+            { name: "Mobile Legends: Bang Bang", genre: "MOBA", image: "https://via.placeholder.com/600x300?text=MLBB", type: "mobile", min: { os: "Android 4.2", ram: "1 GB", storage: "2 GB" }, rec: { os: "Android 7.0+", ram: "3 GB+", storage: "4 GB+" } },
+            { name: "Roblox", genre: "Песочница, Мультиплеер", image: "https://via.placeholder.com/600x300?text=Roblox", type: "mobile", min: { os: "Android 5.0", ram: "1 GB", storage: "500 MB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "1 GB" } },
+            { name: "Among Us", genre: "Инди, Мультиплеер", image: "https://via.placeholder.com/600x300?text=Among+Us", type: "mobile", min: { os: "Android 4.4", ram: "1 GB", storage: "250 MB" }, rec: { os: "Android 6.0+", ram: "2 GB+", storage: "500 MB" } },
+            { name: "Clash of Clans", genre: "Стратегия", image: "https://via.placeholder.com/600x300?text=Clash+of+Clans", type: "mobile", min: { os: "Android 4.4", ram: "1 GB", storage: "200 MB" }, rec: { os: "Android 8.0+", ram: "2 GB+", storage: "400 MB" } },
+            { name: "Clash Royale", genre: "Стратегия, Карточная", image: "https://via.placeholder.com/600x300?text=Clash+Royale", type: "mobile", min: { os: "Android 4.1", ram: "1 GB", storage: "250 MB" }, rec: { os: "Android 7.0+", ram: "2 GB+", storage: "500 MB" } },
+            { name: "Brawl Stars", genre: "Экшен, Мультиплеер", image: "https://via.placeholder.com/600x300?text=Brawl+Stars", type: "mobile", min: { os: "Android 4.3", ram: "1 GB", storage: "400 MB" }, rec: { os: "Android 7.0+", ram: "3 GB+", storage: "800 MB" } },
+            { name: "Minecraft Pocket Edition", genre: "Песочница, Survival", image: "https://via.placeholder.com/600x300?text=Minecraft+PE", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "1 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "2 GB" } },
+            { name: "Diablo Immortal", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=Diablo+Immortal", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "12 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "15 GB+" } },
+            { name: "Apex Legends Mobile", genre: "Шутер, Battle Royale", image: "https://via.placeholder.com/600x300?text=Apex+Mobile", type: "mobile", min: { os: "Android 6.0", ram: "3 GB", storage: "4 GB" }, rec: { os: "Android 9.0+", ram: "6 GB+", storage: "8 GB+" } },
+            { name: "Asphalt 9: Legends", genre: "Гонки", image: "https://via.placeholder.com/600x300?text=Asphalt+9", type: "mobile", min: { os: "Android 4.3", ram: "2 GB", storage: "2.5 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "4 GB+" } },
+            { name: "Real Racing 3", genre: "Гонки, Симулятор", image: "https://via.placeholder.com/600x300?text=Real+Racing+3", type: "mobile", min: { os: "Android 4.4", ram: "1.5 GB", storage: "1.5 GB" }, rec: { os: "Android 8.0+", ram: "3 GB+", storage: "3 GB+" } },
+            { name: "Pokémon GO", genre: "AR, Приключения", image: "https://via.placeholder.com/600x300?text=Pokemon+GO", type: "mobile", min: { os: "Android 6.0", ram: "2 GB", storage: "1 GB" }, rec: { os: "Android 10.0+", ram: "4 GB+", storage: "2 GB" } },
+            { name: "Subway Surfers", genre: "Аркада", image: "https://via.placeholder.com/600x300?text=Subway+Surfers", type: "mobile", min: { os: "Android 4.4", ram: "512 MB", storage: "200 MB" }, rec: { os: "Android 7.0+", ram: "1 GB+", storage: "500 MB" } },
+            { name: "Candy Crush Saga", genre: "Головоломка", image: "https://via.placeholder.com/600x300?text=Candy+Crush", type: "mobile", min: { os: "Android 4.4", ram: "512 MB", storage: "100 MB" }, rec: { os: "Android 6.0+", ram: "1 GB+", storage: "250 MB" } },
+            { name: "8 Ball Pool", genre: "Спорт, Симулятор", image: "https://via.placeholder.com/600x300?text=8+Ball+Pool", type: "mobile", min: { os: "Android 4.4", ram: "1 GB", storage: "150 MB" }, rec: { os: "Android 7.0+", ram: "2 GB+", storage: "300 MB" } },
+            { name: "Dream League Soccer 2024", genre: "Спорт", image: "https://via.placeholder.com/600x300?text=DLS+24", type: "mobile", min: { os: "Android 6.0", ram: "2 GB", storage: "500 MB" }, rec: { os: "Android 9.0+", ram: "4 GB+", storage: "1 GB" } },
+            { name: "eFootball 2024", genre: "Спорт, Симулятор", image: "https://via.placeholder.com/600x300?text=eFootball+24", type: "mobile", min: { os: "Android 7.0", ram: "3 GB", storage: "4 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "8 GB+" } },
+            { name: "TFT: Teamfight Tactics", genre: "Стратегия, Автобаттлер", image: "https://via.placeholder.com/600x300?text=TFT", type: "mobile", min: { os: "Android 7.0", ram: "2 GB", storage: "3 GB" }, rec: { os: "Android 9.0+", ram: "4 GB+", storage: "5 GB+" } },
+            { name: "Legends of Runeterra", genre: "Карточная, Стратегия", image: "https://via.placeholder.com/600x300?text=Runeterra", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "3 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "5 GB+" } },
+            { name: "Hearthstone", genre: "Карточная, Стратегия", image: "https://via.placeholder.com/600x300?text=Hearthstone", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "2 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "4 GB+" } },
+            { name: "ARK: Survival Evolved (Mobile)", genre: "Survival, Приключения", image: "https://via.placeholder.com/600x300?text=ARK+Mobile", type: "mobile", min: { os: "Android 7.0", ram: "3 GB", storage: "4 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "8 GB+" } },
+            { name: "Terraria (Mobile)", genre: "Инди, Приключения", image: "https://via.placeholder.com/600x300?text=Terraria+Mobile", type: "mobile", min: { os: "Android 4.3", ram: "1 GB", storage: "500 MB" }, rec: { os: "Android 7.0+", ram: "2 GB+", storage: "1 GB" } },
+            { name: "Stardew Valley (Mobile)", genre: "Инди, RPG", image: "https://via.placeholder.com/600x300?text=Stardew+Mobile", type: "mobile", min: { os: "Android 4.4", ram: "1 GB", storage: "300 MB" }, rec: { os: "Android 6.0+", ram: "2 GB+", storage: "500 MB" } },
+            { name: "Old School RuneScape", genre: "MMORPG", image: "https://via.placeholder.com/600x300?text=OSRS", type: "mobile", min: { os: "Android 5.0", ram: "1 GB", storage: "2 GB" }, rec: { os: "Android 8.0+", ram: "2 GB+", storage: "3 GB+" } },
+            { name: "Black Desert Mobile", genre: "MMORPG, Экшен", image: "https://via.placeholder.com/600x300?text=Black+Desert+Mobile", type: "mobile", min: { os: "Android 6.0", ram: "3 GB", storage: "5 GB" }, rec: { os: "Android 9.0+", ram: "6 GB+", storage: "10 GB+" } },
+            { name: "Albion Online", genre: "MMORPG, Sandbox", image: "https://via.placeholder.com/600x300?text=Albion+Online", type: "mobile", min: { os: "Android 8.0", ram: "4 GB", storage: "2 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "3 GB+" } },
+            { name: "World of Tanks Blitz", genre: "Экшен, Симулятор", image: "https://via.placeholder.com/600x300?text=WoT+Blitz", type: "mobile", min: { os: "Android 4.2", ram: "1 GB", storage: "3 GB" }, rec: { os: "Android 7.0+", ram: "3 GB+", storage: "5 GB+" } },
+            { name: "War Thunder Mobile", genre: "Симулятор, Экшен", image: "https://via.placeholder.com/600x300?text=War+Thunder+Mobile", type: "mobile", min: { os: "Android 8.0", ram: "3 GB", storage: "5 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "8 GB+" } },
+            { name: "CarX Street", genre: "Гонки, Аркада", image: "https://via.placeholder.com/600x300?text=CarX+Street", type: "mobile", min: { os: "Android 8.0", ram: "3 GB", storage: "2 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "4 GB+" } },
+            { name: "Grid Autosport", genre: "Гонки, Симулятор", image: "https://via.placeholder.com/600x300?text=Grid+Autosport", type: "mobile", min: { os: "Android 9.0", ram: "4 GB", storage: "4 GB" }, rec: { os: "Android 11.0+", ram: "6 GB+", storage: "6 GB+" } },
+            { name: "Grand Theft Auto: San Andreas", genre: "Экшен, Приключения", image: "https://via.placeholder.com/600x300?text=GTA+SA", type: "mobile", min: { os: "Android 7.0", ram: "2 GB", storage: "2.5 GB" }, rec: { os: "Android 9.0+", ram: "4 GB+", storage: "3 GB+" } },
+            { name: "LifeAfter", genre: "Survival, MMORPG", image: "https://via.placeholder.com/600x300?text=LifeAfter", type: "mobile", min: { os: "Android 5.1", ram: "2 GB", storage: "4 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "8 GB+" } },
+            { name: "Day R Survival", genre: "Survival, RPG", image: "https://via.placeholder.com/600x300?text=Day+R+Survival", type: "mobile", min: { os: "Android 4.4", ram: "1 GB", storage: "100 MB" }, rec: { os: "Android 7.0+", ram: "2 GB+", storage: "200 MB" } },
+            { name: "Dead Cells (Mobile)", genre: "Инди, Экшен", image: "https://via.placeholder.com/600x300?text=Dead+Cells+Mobile", type: "mobile", min: { os: "Android 8.0", ram: "3 GB", storage: "1 GB" }, rec: { os: "Android 10.0+", ram: "4 GB+", storage: "1.5 GB" } },
+            { name: "Slay the Spire (Mobile)", genre: "Карточная, Инди", image: "https://via.placeholder.com/600x300?text=Slay+the+Spire", type: "mobile", min: { os: "Android 6.0", ram: "2 GB", storage: "500 MB" }, rec: { os: "Android 9.0+", ram: "3 GB+", storage: "1 GB" } },
+            { name: "The Witcher: Monster Slayer", genre: "AR, RPG", image: "https://via.placeholder.com/600x300?text=Witcher+Monster+Slayer", type: "mobile", min: { os: "Android 7.0", ram: "3 GB", storage: "3 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "6 GB+" } },
+            { name: "League of Legends: Wild Rift", genre: "MOBA", image: "https://via.placeholder.com/600x300?text=Wild+Rift", type: "mobile", min: { os: "Android 5.0", ram: "3 GB", storage: "5 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "8 GB+" } },
+            { name: "Hearthstone Battlegrounds", genre: "Карточная, Автобаттлер", image: "https://via.placeholder.com/600x300?text=Hearthstone+BG", type: "mobile", min: { os: "Android 7.0", ram: "3 GB", storage: "4 GB" }, rec: { os: "Android 9.0+", ram: "6 GB+", storage: "6 GB+" } },
+            { name: "Star Wars: Galaxy of Heroes", genre: "RPG, Стратегия", image: "https://via.placeholder.com/600x300?text=Star+Wars+GoH", type: "mobile", min: { os: "Android 5.1", ram: "2 GB", storage: "3 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "5 GB+" } },
+            { name: "Marvel Future Fight", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Marvel+Future+Fight", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "3 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "6 GB+" } },
+            { name: "Shadow Fight 3", genre: "Экшен, Файтинг", image: "https://via.placeholder.com/600x300?text=Shadow+Fight+3", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "2 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "4 GB+" } },
+            { name: "Injustice 2", genre: "Файтинг, Экшен", image: "https://via.placeholder.com/600x300?text=Injustice+2", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "3 GB" }, rec: { os: "Android 9.0+", ram: "4 GB+", storage: "5 GB+" } },
+            { name: "Tekken Mobile", genre: "Файтинг, Экшен", image: "https://via.placeholder.com/600x300?text=Tekken+Mobile", type: "mobile", min: { os: "Android 4.4", ram: "2 GB", storage: "1.5 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "3 GB+" } },
+            { name: "Dungeon Hunter 5", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Dungeon+Hunter+5", type: "mobile", min: { os: "Android 4.0", ram: "1 GB", storage: "1.5 GB" }, rec: { os: "Android 7.0+", ram: "2 GB+", storage: "3 GB+" } },
+            { name: "Eternium", genre: "RPG, Экшен", image: "https://via.placeholder.com/600x300?text=Eternium", type: "mobile", min: { os: "Android 4.0", ram: "512 MB", storage: "150 MB" }, rec: { os: "Android 6.0+", ram: "1 GB+", storage: "300 MB" } },
+            { name: "Honkai Impact 3rd", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Honkai+Impact+3rd", type: "mobile", min: { os: "Android 5.0", ram: "3 GB", storage: "5 GB" }, rec: { os: "Android 9.0+", ram: "6 GB+", storage: "10 GB+" } },
+            { name: "Punishing: Gray Raven", genre: "Экшен, RPG", image: "https://via.placeholder.com/600x300?text=Punishing+Gray+Raven", type: "mobile", min: { os: "Android 7.0", ram: "3 GB", storage: "5 GB" }, rec: { os: "Android 10.0+", ram: "6 GB+", storage: "8 GB+" } },
+            { name: "Arknights", genre: "Стратегия, RPG", image: "https://via.placeholder.com/600x300?text=Arknights", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "2 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "4 GB+" } },
+            { name: "AFK Arena", genre: "RPG, Стратегия", image: "https://via.placeholder.com/600x300?text=AFK+Arena", type: "mobile", min: { os: "Android 4.1", ram: "1 GB", storage: "1 GB" }, rec: { os: "Android 7.0+", ram: "3 GB+", storage: "2 GB" } },
+            { name: "RAID: Shadow Legends", genre: "RPG, Стратегия", image: "https://via.placeholder.com/600x300?text=RAID+Shadow+Legends", type: "mobile", min: { os: "Android 5.0", ram: "2 GB", storage: "3 GB" }, rec: { os: "Android 8.0+", ram: "4 GB+", storage: "5 GB+" } }
+        ];
+
+        // --- 2. Функции генерации HTML ---
+
+        /**
+         * Генерирует HTML-код для одной карточки (адаптировано для ПК и Мобильных).
+         */
+        function createGameCard(game) {
+            const isPC = game.type !== 'mobile';
+            const cardClass = isPC ? 'game-card' : 'game-card mobile';
+
+            let specsHtml;
+            if (isPC) {
+                // Формат для ПК-игр
+                const specsTable = (specs, title) => `
+                    <h3>${title}</h3>
+                    <ul>
+                        <li><strong>Процессор (CPU):</strong> <span>${specs.cpu}</span></li>
+                        <li><strong>Видеокарта (GPU):</strong> <span>${specs.gpu}</span></li>
+                        <li><strong>ОЗУ (RAM):</strong> <span>${specs.ram}</span></li>
+                        <li><strong>Место на диске:</strong> <span>${specs.storage}</span></li>
+                    </ul>
+                `;
+                specsHtml = `${specsTable(game.min, 'Минимальные требования')}${specsTable(game.rec, 'Рекомендуемые требования')}`;
+            } else {
+                // Упрощенный формат для Мобильных игр
+                const specsMobileTable = (specs, title) => `
+                    <h3>${title}</h3>
+                    <ul>
+                        <li><strong>ОС:</strong> <span>${specs.os}</span></li>
+                        <li><strong>ОЗУ (RAM):</strong> <span>${specs.ram}</span></li>
+                        <li><strong>Место:</strong> <span>${specs.storage}</span></li>
+                    </ul>
+                `;
+                specsHtml = `${specsMobileTable(game.min, 'Мин. требования (Mobile)')}${specsMobileTable(game.rec, 'Рек. требования (Mobile)')}`;
+            }
+
+            return `
+                <div class="${cardClass}" data-genre="${game.genre}">
+                    <div class="game-image-container">
+                        <img src="${game.image}" alt="Обложка игры ${game.name}" loading="lazy">
+                    </div>
+                    <h2>${game.name} (${isPC ? 'ПК' : 'Мобильная'})</h2>
+                    <div class="specs-section">
+                        <p><strong>Жанр:</strong> ${game.genre}</p>
+                        ${specsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 3. Функции фильтрации и отображения ---
+
+        /**
+         * Получает текущее состояние фильтров из LocalStorage.
+         */
+        function getFilterSettings() {
+            // Мобильные игры по умолчанию ВЫКЛЮЧЕНЫ (false)
+            const mobileEnabled = localStorage.getItem('mobile-enabled') === 'true';
+            // ПК-игры по умолчанию ВКЛЮЧЕНЫ (true)
+            const pcEnabled = localStorage.getItem('pc-enabled') !== 'false'; // Изначально true, если нет значения
+
+            return { mobileEnabled, pcEnabled };
+        }
+
+        /**
+         * Объединяет и фильтрует игры перед отображением.
+         */
+        function applyFilters() {
+            const { mobileEnabled, pcEnabled } = getFilterSettings();
+            const searchText = document.getElementById('search-input').value.toLowerCase().trim();
+            
+            let allGames = [];
+            
+            if (pcEnabled) {
+                allGames = allGames.concat(pcGameData.map(g => ({ ...g, type: 'pc' })));
+            }
+            if (mobileEnabled) {
+                allGames = allGames.concat(mobileGameData);
+            }
+
+            const filteredGames = allGames.filter(game => {
+                const matchesSearch = game.name.toLowerCase().includes(searchText) || 
+                                      game.genre.toLowerCase().includes(searchText);
+
+                // Дополнительный фильтр по жанру (удален для простоты, можно вернуть)
+                // const matchesGenre = !selectedGenre || game.genre.includes(selectedGenre);
+
+                return matchesSearch;
+            });
+
+            displayGames(filteredGames);
+        }
+
+        /**
+         * Отображает список игр на странице.
+         */
+        function displayGames(gamesToDisplay) {
+            const listElement = document.getElementById('game-list');
+            
+            if (gamesToDisplay.length === 0) {
+                listElement.innerHTML = '<p style="text-align: center; color: #ffcc00;">К сожалению, игры по вашему запросу не найдены. Проверьте настройки!</p>';
+                return;
+            }
+
+            const html = gamesToDisplay.map(createGameCard).join('');
+            listElement.innerHTML = html;
+        }
+
+        // --- 4. Логика Настроек (Toggles) ---
+
+        /**
+         * Сохраняет состояние ползунка в LocalStorage и обновляет каталог.
+         */
+        function handleToggleChange(event) {
+            const checkbox = event.target;
+            const key = checkbox.dataset.key;
+            localStorage.setItem(key, checkbox.checked);
+            applyFilters();
+        }
+
+        /**
+         * Загружает состояние ползунков из LocalStorage при запуске.
+         */
+        function loadSettings() {
+            const { mobileEnabled, pcEnabled } = getFilterSettings();
+
+            const mobileToggle = document.getElementById('toggle-mobile');
+            const pcToggle = document.getElementById('toggle-pc');
+
+            // Установка начальных состояний
+            mobileToggle.checked = mobileEnabled;
+            pcToggle.checked = pcEnabled;
+
+            // Добавление слушателей
+            mobileToggle.addEventListener('change', handleToggleChange);
+            pcToggle.addEventListener('change', handleToggleChange);
+        }
+
+        // --- 5. Логика Вкладок ---
+
+        function setupTabs() {
+            const tabsContainer = document.getElementById('tabs');
+            const tabButtons = tabsContainer.querySelectorAll('.tab-button');
+            const pages = document.querySelectorAll('.content-section');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Скрыть все страницы
+                    pages.forEach(page => {
+                        page.style.display = 'none';
+                    });
+
+                    // Убрать активный класс со всех кнопок
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Показать нужную страницу и сделать кнопку активной
+                    const targetPageId = button.dataset.tab;
+                    document.getElementById(targetPageId).style.display = 'block';
+                    button.classList.add('active');
+
+                    // При переключении на каталог, обновить список
+                    if (targetPageId === 'catalog-page') {
+                        applyFilters();
+                    }
+                });
+            });
+        }
+
+        // --- 6. Инициализация ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Установка начальных значений в LocalStorage, если они отсутствуют
+            if (localStorage.getItem('mobile-enabled') === null) {
+                localStorage.setItem('mobile-enabled', 'false'); // Мобильные по умолчанию ВЫКЛ.
+            }
+            if (localStorage.getItem('pc-enabled') === null) {
+                localStorage.setItem('pc-enabled', 'true'); // ПК по умолчанию ВКЛ.
+            }
+
+            document.getElementById('loading-message').style.display = 'none';
+            
+            setupTabs();
+            loadSettings();
+            applyFilters(); // Первоначальная загрузка данных на основе настроек
+
+            document.getElementById('search-input').addEventListener('input', applyFilters);
+        });
+    </script>
+</body>
+</html>
